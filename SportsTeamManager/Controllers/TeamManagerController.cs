@@ -77,8 +77,15 @@ namespace SportsTeamManager.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult Delete(int teamId, int playerId)
         {
-            _teamManagerService.RemovePlayer(teamId, playerId);
-            return NoContent();
+            try
+            {
+                _teamManagerService.RemovePlayer(teamId, playerId);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -65,6 +65,11 @@ namespace SportsTeamManager.Services
             var teamToRemoveFrom = _teamRepository.Get(teamId);
             var playerToRemove = _playerRepository.Get(playerId);
 
+            if (teamToRemoveFrom == null || playerToRemove == null)
+            {
+                throw new KeyNotFoundException($"Couldn't find team by teamId {teamId} or player by playerId {playerId}");
+            }
+
             teamToRemoveFrom.Players.Remove(playerToRemove);
             // Doing this for data consistency, although with current implementation this player would get "lost" completely and it wouldn't
             // be possible to add it to any other team. Only his/hers previous/upcoming games could be seen.
